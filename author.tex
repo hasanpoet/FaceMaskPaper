@@ -14,6 +14,7 @@
 
 % to typeset URLs, URIs, and DOIs
 \usepackage{url}
+\usepackage{float}
 \def\UrlFont{\rmfamily}
 
 \begin{document}
@@ -57,7 +58,57 @@ In this work, we came up with a deep learning based approach to automatically de
 
 \section{Related Works}
 
+Detection of facial mask is a comparatively new area of work. Before this pandemic started, there was almost no need to pay attention to this area. As a result, although we get thousands of works related to face detection or facial expression detection, we don't get much works related to face mask detection. In 2017, Ge et al. \cite{ge2017detecting} first worked on in this area.  In 2020, there have been a few publications indicating that people started focusing on this problem. \\
+
+\par Loey et al. \cite{loey2020fighting} proposed a novel deep learning model based on YOLO-v2 and ResNet-50 for detecting medical masks from human face. They used two publicly available data set called \emph{MMD} and \emph{FMD} in their work. They were able to achieve $81\%$ accuracy as compared to Ge at el. who achieved around $76\%$ of accuracy. Loey et al. also proposed another hybrid model \cite{loey2020hybrid} where they used three different data sets such as Real World Masked Face Data set (RMFD), Simulated Masked Face Data set (SMFD) and Labeled Faces in the Wild (LFW). While for the first two data sets they were able to achieve only around $94\%$ and $96\%$ respectively, for the third data set they were able to achieve $98\%$ accuracy. \\
+
+\par Mohan at el. lately proposed another tiny DeepNet model for facial mask detection for resource constrained endpoints \cite{mohan2020tiny}. They used the Kaggle data set and reported a $99.81\%$ accuracy in their proposed model. However, it's worth noting that the Kaggle data set has only $440$ images that contains equal number of mask and non-mask images. Chen at el. proposed a transfer learning technique to classify the mask/non-mask images, however they did it on a semi-synthetic data set.Trying on AlexNet and VGG16, they reported a validation accuracy of $ 96\%$ and $99\%$, respectively \cite{chen2020efficient}. The last reference that we found related is by Chowdary at el. \cite{chowdary2020face}. They only used SMFD data set mentioned above and reported $100\%$ accuracy. \\
+
+\par Given all the  related works we found that there is no work that combine all the available data sets together and observe the responses, most of the works are focused on one or two data sets. So the accuracy reported by them are limited. Also, only one of the papers reported their training time, so finding a faster learning model is yet to be achieved. No previous work was found so far that also tested their method on video, therefore building a system that equally works for both video and still pictures is in scope, opening up the real application of the system behind the CCTV/Security Camera is a large indoor public space. 
+
 \section{Proposed Method}
+
+The model we are proposing is outlined in table \ref{modelTable}.
+
+\begin{table}[]
+\centering
+\begin{tabular}{l}
+Model: "sequential"                                                                                                                \\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ \\
+Layer (type)                 Output Shape              Param \#                                                                    \\
+===============================                                                   \\
+conv2d (Conv2D)              (None, 148, 148, 32)      896                                                                         \\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ \\
+max\_pooling2d (MaxPooling2D) (None, 74, 74, 32)        0                                                                          \\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ \\
+conv2d\_1 (Conv2D)            (None, 72, 72, 32)        9248                                                                       \\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ \\
+max\_pooling2d\_1 (MaxPooling2 (None, 36, 36, 32)        0                                                                         \\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ \\
+conv2d\_2 (Conv2D)            (None, 34, 34, 64)        18496                                                                      \\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ \\
+max\_pooling2d\_2 (MaxPooling2 (None, 17, 17, 64)        0                                                                         \\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ \\
+flatten (Flatten)            (None, 18496)             0                                                                           \\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ \\
+dense (Dense)                (None, 64)                1183808                                                                     \\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ \\
+activation (Activation)      (None, 64)                0                                                                           \\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ \\
+dropout (Dropout)            (None, 64)                0                                                                           \\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ \\
+dense\_1 (Dense)              (None, 1)                 65                                                                         \\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ \\
+activation\_1 (Activation)    (None, 1)                 0                                                                          \\
+===============================                                                   \\
+Total params: 1,212,513                                                                                                            \\
+Trainable params: 1,212,513                                                                                                        \\
+Non-trainable params: 0                                                                                                            \\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ \\
+\end{tabular}
+\caption{The description of the proposed model}
+\label{modelTable}
+\end{table}
 
 \section{Results}
 \subsection{Limitations}
@@ -69,35 +120,26 @@ In this work, we came up with a deep learning based approach to automatically de
 %
 \begin{thebibliography}{6}
 %
+\bibitem {ge2017detecting}
+Ge, S., Li, J., Ye, Q. and Luo, Z., 2017. Detecting masked faces in the wild with lle-cnns. In Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (pp. 2682-2690).
 
-\bibitem {smit:wat}
-Smith, T.F., Waterman, M.S.: Identification of common molecular subsequences.
-J. Mol. Biol. 147, 195?197 (1981). \url{doi:10.1016/0022-2836(81)90087-5}
+\bibitem {loey2020fighting}
+Loey, M., Manogaran, G., Taha, M.H.N. and Khalifa, N.E.M., 2020. Fighting against COVID-19: A novel deep learning model based on YOLO-v2 with ResNet-50 for medical face mask detection. Sustainable Cities and Society, p.102600.
 
-\bibitem {may:ehr:stein}
-May, P., Ehrlich, H.-C., Steinke, T.: ZIB structure prediction pipeline:
-composing a complex biological workflow through web services.
-In: Nagel, W.E., Walter, W.V., Lehner, W. (eds.) Euro-Par 2006.
-LNCS, vol. 4128, pp. 1148?1158. Springer, Heidelberg (2006).
-\url{doi:10.1007/11823285_121}
+\bibitem {loey2020hybrid}
+Loey, M., Manogaran, G., Taha, M.H.N. and Khalifa, N.E.M., 2020. A hybrid deep transfer learning model with machine learning methods for face mask detection in the era of the COVID-19 pandemic. Measurement, 167, p.108288.
 
-\bibitem {fost:kes}
-Foster, I., Kesselman, C.: The Grid: Blueprint for a New Computing Infrastructure.
-Morgan Kaufmann, San Francisco (1999)
+\bibitem {mohan2020tiny}
+Mohan, P., Paul, A.J. and Chirania, A., 2020. A Tiny CNN Architecture for Medical Face Mask Detection for Resource-Constrained Endpoints. arXiv preprint arXiv:2011.14858.
 
-\bibitem {czaj:fitz}
-Czajkowski, K., Fitzgerald, S., Foster, I., Kesselman, C.: Grid information services
-for distributed resource sharing. In: 10th IEEE International Symposium
-on High Performance Distributed Computing, pp. 181?184. IEEE Press, New York (2001).
-\url{doi: 10.1109/HPDC.2001.945188}
+\bibitem {chen2020efficient}
+Chen, S., Liu, W. and Zhang, G., 2020. Efficient Transfer Learning Combined Skip-Connected Structure for Masked Face Poses Classification. IEEE Access, 8, pp.209688-209698.
 
-\bibitem {fo:kes:nic:tue}
-Foster, I., Kesselman, C., Nick, J., Tuecke, S.: The physiology of the grid: an open grid services architecture for distributed systems integration. Technical report, Global Grid
-Forum (2002)
+\bibitem {chowdary2020face}
+Chowdary, G.J., Punn, N.S., Sonbhadra, S.K. and Agarwal, S., 2020. Face Mask Detection using Transfer Learning of InceptionV3. arXiv preprint arXiv:2009.08369.
 
-\bibitem {onlyurl}
-National Center for Biotechnology Information. \url{http://www.ncbi.nlm.nih.gov}
-
+\bibitem {ourVideo}
+A Test Video by the Authors. \url{http://www.youtube.com/}
 
 \end{thebibliography}
 \end{document}
