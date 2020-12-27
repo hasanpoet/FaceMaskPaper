@@ -15,6 +15,7 @@
 % to typeset URLs, URIs, and DOIs
 \usepackage{url}
 \usepackage{float}
+\usepackage{graphicx}
 \def\UrlFont{\rmfamily}
 
 \begin{document}
@@ -26,19 +27,21 @@
 %                                     also used for the TOC unless
 %                                     \toctitle is used
 %
-\author{Borun Das\inst{1} \and Mahmud Hasan\inst{2}}
+\author{Borun Das\inst{1} \and Mahmud Hasan\inst{2} \and Rafi Belal \inst{3}}
 %
 \authorrunning{Borun Das et al.} % abbreviated author list (for running head)
 %
 %%%% list of authors for the TOC (use if author list has to be modified)
 \tocauthor{Borun Das, Mahmud Hasan}
 %
-\institute{Learning Imaging Lab, Dhaka, Bangladesh\\
+\institute{Learning Imaging Lab, Bangladesh\\
 \email{nilborun@gmail.com},
 \and
-University of Western Ontario, ON, Canada\\
-\email{mhasan62@uwo.ca}}
-
+University of Western Ontario, Canada\\
+\email{mhasan62@uwo.ca},
+\and
+Center for Analysis, Research and Development, Bangladesh \\
+\email{rafi2213@yahoo.com}}
 \maketitle              % typeset the title of the contribution
 
 \begin{abstract}
@@ -68,7 +71,14 @@ Detection of facial mask is a comparatively new area of work. Before this pandem
 
 \section{Proposed Method}
 
-The model we are proposing is outlined in table \ref{modelTable}.
+The model we are proposing is outlined in table \ref{modelTable}. Our proposed method is simple and straight forward. As the model shows, we used a combination of CNN with Max Pooling cascaded one after another, with the input size being reduced in next set. We then flatten the output data followed by a dense operation in order to pass the extracted feature to the Neural Network. This classifier is a binary classifier, it learns to classify a facial image either as with mask or without mask scenario. Fig. \ref{flowChart} shows the work flow of the proposed system.
+
+\begin{figure}[!ht]
+\includegraphics[width=0.9\textwidth]{flowChart.png}
+\centering
+\caption{Work flow-chart of the proposed system.}
+\label{flowChart}
+\end{figure}
 
 \begin{table}[]
 \centering
@@ -111,6 +121,36 @@ Non-trainable params: 0                                                         
 \end{table}
 
 \section{Results}
+\subsection{Data Sets}
+We have used the following datasets publicly available as cited in this work. 
+\begin{enumerate}
+  \item Data Set 1 [reference]
+  \item Data Set 2 [reference]
+  \item Data Set n [reference]
+\end{enumerate}
+
+A summary of all the experimental results is given in Table \ref{expResult}.
+
+\begin{table}[]
+\begin{tabular}{lllllll}
+\hline
+Training Data                   & Validation Data           & Test Data                 & Test Accuracy \\
+\hline
+Real Face (with body, multiple) & Real Face                 & Real Face                 & 0.99         \\
+ROI- Face                       & ROI- Face                 & ROI- Face                 & 0.98                    \\
+(Real+ROI)                      & (Real+ROI)                & (Real+ROI)                & 0.99                \\
+Simulated Face                  & Simulated Face            & Simulated Face            & 0.95            \\
+ROI-Simulated Face              & ROI-Simulated Face        & ROI-Simulated Face        & 0.98 \\
+(Real+ROI) Simulated Face       & (Real+ROI) Simulated Face & (Real+ROI) Simulated Face & 0.96\\
+ROI on Real+Simulated           & ROI on Real+Simulated     & ROI on Real+Simulated     & 0.98 \\
+Real+Simulated                  & Real+Simulated            & Real+Simulated            & 0.99 \\
+Overall                         & Overall                   & Overall                   & 0.98  \\
+\hline
+\end{tabular}
+\caption{Summary Matrix of all experimental results}
+\label{expResult}
+\end{table}
+
 \subsection{Limitations}
 \subsection{Future Works}
 \section{Discussion}
@@ -139,7 +179,7 @@ Chen, S., Liu, W. and Zhang, G., 2020. Efficient Transfer Learning Combined Skip
 Chowdary, G.J., Punn, N.S., Sonbhadra, S.K. and Agarwal, S., 2020. Face Mask Detection using Transfer Learning of InceptionV3. arXiv preprint arXiv:2009.08369.
 
 \bibitem {ourVideo}
-A Test Video by the Authors. \url{http://www.youtube.com/}
+A Test Video by the Authors. \url{https://youtu.be/1uLkBke2dGo}
 
 \end{thebibliography}
 \end{document}
