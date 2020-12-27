@@ -76,7 +76,7 @@ The model we are proposing is outlined in table \ref{modelTable}. Our proposed m
 \begin{figure}[!ht]
 \includegraphics[width=0.9\textwidth]{flowChart.png}
 \centering
-\caption{Work flow-chart of the proposed system.}
+\caption{Flow chart of the proposed system.}
 \label{flowChart}
 \end{figure}
 
@@ -84,76 +84,89 @@ The model we are proposing is outlined in table \ref{modelTable}. Our proposed m
 \centering
 \begin{tabular}{l}
 Model: "sequential"                                                                                                                \\
-\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ \\
+
 Layer (type)                 Output Shape              Param \#                                                                    \\
 ===============================                                                   \\
 conv2d (Conv2D)              (None, 148, 148, 32)      896                                                                         \\
-\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ \\
 max\_pooling2d (MaxPooling2D) (None, 74, 74, 32)        0                                                                          \\
-\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ \\
 conv2d\_1 (Conv2D)            (None, 72, 72, 32)        9248                                                                       \\
-\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ \\
 max\_pooling2d\_1 (MaxPooling2 (None, 36, 36, 32)        0                                                                         \\
-\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ \\
 conv2d\_2 (Conv2D)            (None, 34, 34, 64)        18496                                                                      \\
-\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ \\
 max\_pooling2d\_2 (MaxPooling2 (None, 17, 17, 64)        0                                                                         \\
-\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ \\
 flatten (Flatten)            (None, 18496)             0                                                                           \\
-\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ \\
 dense (Dense)                (None, 64)                1183808                                                                     \\
-\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ \\
 activation (Activation)      (None, 64)                0                                                                           \\
-\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ \\
 dropout (Dropout)            (None, 64)                0                                                                           \\
-\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ \\
 dense\_1 (Dense)              (None, 1)                 65                                                                         \\
-\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ \\
 activation\_1 (Activation)    (None, 1)                 0                                                                          \\
 ===============================                                                   \\
 Total params: 1,212,513                                                                                                            \\
 Trainable params: 1,212,513                                                                                                        \\
 Non-trainable params: 0                                                                                                            \\
-\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ \\
+===============================                                       
 \end{tabular}
 \caption{The description of the proposed model}
 \label{modelTable}
 \end{table}
 
 \section{Results}
+
+In this section we will briefly report our experimental results and data set descriptions. 
+
 \subsection{Data Sets}
-We have used the following datasets publicly available as cited in this work. 
+We have used the following datasets publicly available as cited in this work. Each data set has a different number of mask/no-mask combinations, giving us a total of XXX mask and YYY no-mask images.
 \begin{enumerate}
-  \item Data Set 1 [reference]
-  \item Data Set 2 [reference]
-  \item Data Set n [reference]
+  \item Face Mask Detection Data Set by Kaggle \cite{kagglefacemask}. 
+  \item Simulated Masked Face Dataset (SMFD) \cite{smfd}.
+  \item Real-World Masked Face Dataset (RMFD) \cite{wang2020masked}.
+  \item Face-Mask-Detection Data set \cite{chandrikadeb7}.
+  \item Real and Fake Face Detection Dataset \cite{realAndFakeFace}.
+  \item MaskedFace-Net \cite{learned2016labeled}.
 \end{enumerate}
 
-A summary of all the experimental results is given in Table \ref{expResult}.
+\subsection{Expriemtal Setup}
+
+We have designed our training and testing strategies as follows. We divided our data into two parts: real face-mask and simulated face-mask images. In both parts we have masked and non-masked images. Now during training and testing we further divided our images into two more parts: training and testing with specifying the Region of Interest (ROI/Face) and without specifying so. So finally the training and testing combinations are $(i)$ real face images with/without ROI and $(ii)$ simulated face images with/without ROI. We have another $(iii)$ category called real images with multiple persons present or full body present (i.e. not only face) and we have the two sub-categories of with/without ROI there as well. Now we mixed both real and simulated image set together as $(iv)$ and subdivided it similarly with and without specifying ROI. These combinations give us a total of 8 different training testing scenario. Finally we make a combination of everything and trained and tested the model. A summary of all the experimental results is given in Table \ref{expResult}.
 
 \begin{table}[]
-\begin{tabular}{lllllll}
+\centering
+\begin{tabular}{lc}
 \hline
-Training Data                   & Validation Data           & Test Data                 & Test Accuracy \\
+Data & Test Accuracy \\
 \hline
-Real Face (with body, multiple) & Real Face                 & Real Face                 & 0.99         \\
-ROI- Face                       & ROI- Face                 & ROI- Face                 & 0.98                    \\
-(Real+ROI)                      & (Real+ROI)                & (Real+ROI)                & 0.99                \\
-Simulated Face                  & Simulated Face            & Simulated Face            & 0.95            \\
-ROI-Simulated Face              & ROI-Simulated Face        & ROI-Simulated Face        & 0.98 \\
-(Real+ROI) Simulated Face       & (Real+ROI) Simulated Face & (Real+ROI) Simulated Face & 0.96\\
-ROI on Real+Simulated           & ROI on Real+Simulated     & ROI on Real+Simulated     & 0.98 \\
-Real+Simulated                  & Real+Simulated            & Real+Simulated            & 0.99 \\
-Overall                         & Overall                   & Overall                   & 0.98  \\
-\hline
+Real Face (with body, multiple) & 0.99 \\
+ROI- Face                       & 0.98 \\
+(Real+ROI)                      & 0.99 \\
+Simulated Face                  & 0.95 \\
+ROI-Simulated Face              & 0.98 \\
+(Real+ROI) Simulated Face       & 0.96 \\
+ROI on Real+Simulated           & 0.98 \\
+Real+Simulated                  & 0.99 \\
+Overall                         & 0.98 \\
+\hline \\
 \end{tabular}
 \caption{Summary Matrix of all experimental results}
 \label{expResult}
 \end{table}
 
+\begin{figure}[!ht]
+\includegraphics[width=1\textwidth]{test_image.PNG}
+\centering
+\caption{Some randomly chosen test results from unseen images.}
+\label{testresult}
+\end{figure}
+
 \subsection{Limitations}
+
+One of this work's limitations is that for profile face images/videos, the proposed method is not working well, because of lack of the training images of profile faces. Another limitation is for images with group of people present is also not working well, again because of the lack of data. We have not tested our system on blurry/noisy data as well.
+
 \subsection{Future Works}
+
+We are in the process of collecting more profile faces and maks/no-mask images for images containing multiple faces. We area also adding simulated Additive White Gaussian Noise (AWGN) to our existing test images to experiment if it still producing similar range of accuracy. Also, for face  detection, instead of using Haar-Cascade face detection from OpenCV, our plan is to try YOLO-V5 or so to make the face detection easier and robust.
+
 \section{Discussion}
+
+In this work, we proposed a novel deep learning model that is capable of distinguishing masked and non-masked human faces from videos and still pictures. Our experimental results proved that with a few limitations, with $98\%$ of accuracy our work is performing better than other related works reported when trained and tested on all image sets while in some cases a few of the comparative studies are performing better when focused on smaller and concentrated data set. 
 
 %
 % ---- Bibliography ----
@@ -180,6 +193,24 @@ Chowdary, G.J., Punn, N.S., Sonbhadra, S.K. and Agarwal, S., 2020. Face Mask Det
 
 \bibitem {ourVideo}
 A Test Video by the Authors. \url{https://youtu.be/1uLkBke2dGo}
+
+\bibitem {kagglefacemask}
+Face Mask Detection data set by Kaggle. \url{https://www.kaggle.com/andrewmvd/face-mask-detection}
+
+\bibitem {smfd}
+Simulated Masked Face Dataset (SMFD). \url{https://github.com/prajnasb/observations/tree/master/experiements}
+
+\bibitem {wang2020masked}
+Wang, Z., Wang, G., Huang, B., Xiong, Z., Hong, Q., Wu, H., Yi, P., Jiang, K., Wang, N., Pei, Y. and Chen, H., 2020. Masked face recognition dataset and application. arXiv preprint arXiv:2003.09093.
+
+\bibitem {chandrikadeb7}
+ Face-Mask-Detection Dataset. \url{https://github.com/chandrikadeb7/Face-Mask-Detection}
+
+\bibitem {realAndFakeFace}
+Real and Fake Face Detection. \url{https://www.kaggle.com/ciplab/real-and-fake-face-detection}
+
+\bibitem {learned2016labeled}
+Cabani, A., Hammoudi, K., Benhabiles, H. and Melkemi, M., 2020. MaskedFace-Net–A dataset of correctly/incorrectly masked face images in the context of COVID-19. Smart Health, p.100144.
 
 \end{thebibliography}
 \end{document}
