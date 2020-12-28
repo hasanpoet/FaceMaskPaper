@@ -82,28 +82,27 @@ The model we are proposing is outlined in table \ref{modelTable}. Our proposed m
 
 \begin{table}[]
 \centering
-\begin{tabular}{l}
-Model: "sequential"                                                                                                                \\
-
-Layer (type)                 Output Shape              Param \#                                                                    \\
-===============================                                                   \\
-conv2d (Conv2D)              (None, 148, 148, 32)      896                                                                         \\
-max\_pooling2d (MaxPooling2D) (None, 74, 74, 32)        0                                                                          \\
-conv2d\_1 (Conv2D)            (None, 72, 72, 32)        9248                                                                       \\
-max\_pooling2d\_1 (MaxPooling2 (None, 36, 36, 32)        0                                                                         \\
-conv2d\_2 (Conv2D)            (None, 34, 34, 64)        18496                                                                      \\
-max\_pooling2d\_2 (MaxPooling2 (None, 17, 17, 64)        0                                                                         \\
-flatten (Flatten)            (None, 18496)             0                                                                           \\
-dense (Dense)                (None, 64)                1183808                                                                     \\
-activation (Activation)      (None, 64)                0                                                                           \\
-dropout (Dropout)            (None, 64)                0                                                                           \\
-dense\_1 (Dense)              (None, 1)                 65                                                                         \\
-activation\_1 (Activation)    (None, 1)                 0                                                                          \\
-===============================                                                   \\
-Total params: 1,212,513                                                                                                            \\
-Trainable params: 1,212,513                                                                                                        \\
-Non-trainable params: 0                                                                                                            \\
-===============================                                       
+\begin{tabular}{llll}
+\hline
+Layer (type) &  Output Shape & &  Param \\
+\hline
+Conv2D & None, 148, 148, 32 & & 896 \\
+MaxPooling2D & None, 74, 74, 32 & & 0 \\
+Conv2D & None, 72, 72, 32 && 9248 \\
+MaxPooling2D & None, 36, 36, 32 & & 0 \\
+Conv2D) & None, 34, 34, 64 & & 18496 \\
+MaxPooling2D & None, 17, 17, 64 & & 0 \\
+Flatten & None, 18496 & & 0 \\
+Dense & None, 64 & & 1183808 \\
+Activation & None, 64 & & 0 \\
+Dropout & None, 64 & &  0 \\ 
+Dense & None, 1 & &  65 \\
+Activation & None, 1 & &  0 \\
+\hline \\
+Total params: 1,212,513 \\
+Trainable params: 1,212,513 \\
+Non-trainable params: 0 \\
+\hline \\
 \end{tabular}
 \caption{The description of the proposed model}
 \label{modelTable}
@@ -114,7 +113,7 @@ Non-trainable params: 0                                                         
 In this section we will briefly report our experimental results and data set descriptions. 
 
 \subsection{Data Sets}
-We have used the following datasets publicly available as cited in this work. Each data set has a different number of mask/no-mask combinations, giving us a total of XXX mask and YYY no-mask images.
+We have used the following datasets publicly available as cited in this work. Each data set has a different number of mask/no-mask combinations, giving us a total of $20,124$ mask and $12,748$ no-mask images.
 \begin{enumerate}
   \item Face Mask Detection Data Set by Kaggle \cite{kagglefacemask}. 
   \item Simulated Masked Face Dataset (SMFD) \cite{smfd}.
@@ -124,7 +123,7 @@ We have used the following datasets publicly available as cited in this work. Ea
   \item MaskedFace-Net \cite{learned2016labeled}.
 \end{enumerate}
 
-\subsection{Expriemtal Setup}
+\subsection{Experimental Setup}
 
 We have designed our training and testing strategies as follows. We divided our data into two parts: real face-mask and simulated face-mask images. In both parts we have masked and non-masked images. Now during training and testing we further divided our images into two more parts: training and testing with specifying the Region of Interest (ROI/Face) and without specifying so. So finally the training and testing combinations are $(i)$ real face images with/without ROI and $(ii)$ simulated face images with/without ROI. We have another $(iii)$ category called real images with multiple persons present or full body present (i.e. not only face) and we have the two sub-categories of with/without ROI there as well. Now we mixed both real and simulated image set together as $(iv)$ and subdivided it similarly with and without specifying ROI. These combinations give us a total of 8 different training testing scenario. Finally we make a combination of everything and trained and tested the model. A summary of all the experimental results is given in Table \ref{expResult}.
 
@@ -134,15 +133,15 @@ We have designed our training and testing strategies as follows. We divided our 
 \hline
 Data & Test Accuracy \\
 \hline
-Real Face (with body, multiple) & 0.99 \\
-ROI- Face                       & 0.98 \\
-(Real+ROI)                      & 0.99 \\
-Simulated Face                  & 0.95 \\
-ROI-Simulated Face              & 0.98 \\
-(Real+ROI) Simulated Face       & 0.96 \\
-ROI on Real+Simulated           & 0.98 \\
-Real+Simulated                  & 0.99 \\
-Overall                         & 0.98 \\
+Real face with full body/multiple persons present & 0.99 \\
+Real face with ROI detected only                       & 0.98 \\
+Real face with \& without ROI                      & 0.99 \\
+Simulated face                  & 0.95 \\
+Simulated face with ROI detected  only            & 0.98 \\
+Simulated face with \& without ROI       & 0.96 \\
+Real \& Simulated images with ROI detected           & 0.98 \\
+Real \& Simulated images without ROI detected                 & 0.99 \\
+All Images                         & 0.98 \\
 \hline \\
 \end{tabular}
 \caption{Summary Matrix of all experimental results}
@@ -158,7 +157,7 @@ Overall                         & 0.98 \\
 
 \subsection{Limitations}
 
-One of this work's limitations is that for profile face images/videos, the proposed method is not working well, because of lack of the training images of profile faces. Another limitation is for images with group of people present is also not working well, again because of the lack of data. We have not tested our system on blurry/noisy data as well.
+One of this work's limitations is that for profile face images/videos, the proposed method is not working well, because of lack of the training images of profile faces. We have not tested our system on blurry/noisy data as well.
 
 \subsection{Future Works}
 
