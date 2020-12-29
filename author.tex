@@ -65,14 +65,6 @@ Detection of facial mask is a comparatively new area of work. Before this pandem
 
 \par Loey et al. \cite{loey2020fighting} proposed a novel deep learning model based on YOLO-v2 and ResNet-50 for detecting medical masks from human face. They used two publicly available data set called \emph{MMD} and \emph{FMD} in their work. They were able to achieve $81\%$ accuracy as compared to Ge at el. who achieved around $76\%$ of accuracy. Loey et al. also proposed another hybrid model \cite{loey2020hybrid} where they used three different data sets such as Real World Masked Face Data set (RMFD), Simulated Masked Face Data set (SMFD) and Labeled Faces in the Wild (LFW). While for the first two data sets they were able to achieve only around $94\%$ and $96\%$ respectively, for the third data set they were able to achieve $98\%$ accuracy. \\
 
-\par Mohan at el. lately proposed another tiny DeepNet model for facial mask detection for resource constrained endpoints \cite{mohan2020tiny}. They used the Kaggle data set and reported a $99.81\%$ accuracy in their proposed model. However, it's worth noting that the Kaggle data set has only $440$ images that contains equal number of mask and non-mask images. Chen at el. proposed a transfer learning technique to classify the mask/non-mask images, however they did it on a semi-synthetic data set.Trying on AlexNet and VGG16, they reported a validation accuracy of $ 96\%$ and $99\%$, respectively \cite{chen2020efficient}. The last reference that we found related is by Chowdary at el. \cite{chowdary2020face}. They only used SMFD data set mentioned above and reported $100\%$ accuracy. \\
-
-\par Given all the  related works we found that there is no work that combine all the available data sets together and observe the responses, most of the works are focused on one or two data sets. So the accuracy reported by them are limited. Also, only one of the papers reported their training time, so finding a faster learning model is yet to be achieved. No previous work was found so far that also tested their method on video, therefore building a system that equally works for both video and still pictures is in scope, opening up the real application of the system behind the CCTV/Security Camera is a large indoor public space. 
-
-\section{Proposed Method}
-
-The model we are proposing is outlined in table \ref{modelTable}. Our proposed method is simple and straight forward. As the model shows, we used a combination of CNN with Max Pooling cascaded one after another, with the input size being reduced in next set. We then flatten the output data followed by a dense operation in order to pass the extracted feature to the Neural Network. This classifier is a binary classifier, it learns to classify a facial image either as with mask or without mask scenario. Fig. \ref{flowChart} shows the work flow of the proposed system.
-
 \begin{figure}[!ht]
 \includegraphics[width=0.9\textwidth]{flowChart.png}
 \centering
@@ -80,7 +72,15 @@ The model we are proposing is outlined in table \ref{modelTable}. Our proposed m
 \label{flowChart}
 \end{figure}
 
-\begin{table}[]
+\par Mohan at el. lately proposed another tiny DeepNet model for facial mask detection for resource constrained endpoints \cite{mohan2020tiny}. They used the Kaggle data set and reported a $99.81\%$ accuracy in their proposed model. However, it's worth noting that the Kaggle data set has only $440$ images that contains equal number of mask and non-mask images. Chen at el. proposed a transfer learning technique to classify the mask/non-mask images, however they did it on a semi-synthetic data set.Trying on AlexNet and VGG16, they reported a validation accuracy of $ 96\%$ and $99\%$, respectively \cite{chen2020efficient}. The last reference that we found related is by Chowdary at el. \cite{chowdary2020face}. They only used SMFD data set mentioned above and reported $100\%$ accuracy. \\
+
+\par Given all the  related works we found that there is no work that combine all the available data sets together and observe the responses, most of the works are focused on one or two data sets. So the accuracy reported by them are limited. Also, only one of the papers reported their training time, so finding a faster learning model is yet to be achieved. No previous work was found so far that also tested their method on video, therefore building a system that equally works for both video and still pictures is in scope, opening up the real application of the system behind the CCTV/Security Camera is a large indoor public space. 
+
+\section{Proposed Method}
+
+The model we are proposing is outlined in table \ref{modelTable}. Our proposed method is simple and straight forward. As the model shows, we used a combination of CNN with Max Pooling cascaded one after another, with the input size being reduced in next set. We then flatten the output data followed by a dense operation in order to pass the extracted feature to the Neural Network. This classifier is a binary classifier, it learns to classify a facial image either as with mask or without mask scenario. Fig. \ref{flowChart} shows the work flow of the proposed system. Before training the model, we re-scaled the images based on different parameters. Beside that, we provided validation images to the model during training so that we can calculate the validation accuracy before acquiring test accuracy and compare both. The accuracy we found on test data required only $6$ epochs while some of related works mentioned earlier had more than 100 epochs. So in terms of training time, our model is the fastest.
+
+\begin{table}[!ht]
 \centering
 \begin{tabular}{llll}
 \hline
@@ -109,8 +109,6 @@ Non-trainable params: 0 \\
 \end{table}
 
 \section{Results}
-
-In this section we will briefly report our experimental results and data set descriptions. 
 
 \subsection{Data Sets}
 We have used the following datasets publicly available as cited in this work. Each data set has a different number of mask/no-mask combinations, giving us a total of $20,124$ mask and $12,748$ no-mask images.
