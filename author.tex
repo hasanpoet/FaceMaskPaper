@@ -18,6 +18,9 @@
 \usepackage{graphicx}
 \def\UrlFont{\rmfamily}
 
+\def\UrlBreaks{\do\/\do-}
+\usepackage{breakurl}
+
 \begin{document}
 \mainmatter              % start of a contribution
 %
@@ -123,7 +126,7 @@ We have used the following datasets publicly available as cited in this work. Ea
 
 \subsection{Experimental Setup}
 
-We have designed our training and testing strategies as follows. We divided our data into two parts: real face-mask and simulated face-mask images. In both parts we have masked and non-masked images. Now during training and testing we further divided our images into two more parts: training and testing with specifying the Region of Interest (ROI/Face) and without specifying so. So finally the training and testing combinations are $(i)$ real face images with/without ROI and $(ii)$ simulated face images with/without ROI. We have another $(iii)$ category called real images with multiple persons present or full body present (i.e. not only face) and we have the two sub-categories of with/without ROI there as well. Now we mixed both real and simulated image set together as $(iv)$ and subdivided it similarly with and without specifying ROI. These combinations give us a total of 8 different training testing scenario. Finally we make a combination of everything and trained and tested the model. A summary of all the experimental results is given in Table \ref{expResult}.
+We have designed our training and testing strategies as follows. We divided our data into two parts: real face-mask and simulated face-mask images. In both parts we have masked and non-masked images. Now during training and testing we further divided our images into two more parts: training and testing with specifying the Region of Interest (ROI/Face) and without specifying so. So finally the training and testing combinations are $(i)$ real face images with/without ROI and $(ii)$ simulated face images with/without ROI. We have another $(iii)$ category called real images with multiple persons present or full body present (i.e. not only face) and we have the two sub-categories of with/without ROI there as well. Now we mixed both real and simulated image set together as $(iv)$ and subdivided it similarly with and without specifying ROI. These combinations give us a total of 8 different training testing scenario. Finally we make a combination of everything and trained and tested the model. A summary of all the experimental results is given in Table \ref{expResult}. The test accuracy reported in Table \ref{expResult} was obtained by the \emph{evalute} function of tensorflow/keras.
 
 \begin{table}[]
 \centering
@@ -153,22 +156,19 @@ All Images                         & 0.98 \\
 \label{testresult}
 \end{figure}
 
-\subsection{Limitations}
+\subsection{Discussion}
 
-One of this work's limitations is that for profile face images/videos, the proposed method is not working well, because of lack of the training images of profile faces. We have not tested our system on blurry/noisy data as well.
+In this work, using deep learning model we proposed a novel application that is capable of distinguishing masked and non-masked human faces from videos and still pictures. Our experimental results proved that with a few limitations, with $98\%$ of accuracy our work is performing better than other related works reported when trained and tested on all image sets while in some cases a few of the comparative studies are performing better when focused on smaller and concentrated data set. 
 
-\subsection{Future Works}
+\section{Limitations and Future Works}
 
-We are in the process of collecting more profile faces and maks/no-mask images for images containing multiple faces. We area also adding simulated Additive White Gaussian Noise (AWGN) to our existing test images to experiment if it still producing similar range of accuracy. Also, for face  detection, instead of using Haar-Cascade face detection from OpenCV, our plan is to try YOLO-V5 or so to make the face detection easier and robust.
+One of this work's limitations is that for profile face images/videos, the proposed method is not working well, because of lack of the training images of profile faces. We have not tested our system on blurry/noisy data as well. \\
 
-\section{Discussion}
-
-In this work, we proposed a novel deep learning model that is capable of distinguishing masked and non-masked human faces from videos and still pictures. Our experimental results proved that with a few limitations, with $98\%$ of accuracy our work is performing better than other related works reported when trained and tested on all image sets while in some cases a few of the comparative studies are performing better when focused on smaller and concentrated data set. 
-
+\par We are in the process of collecting more profile faces and maks/no-mask images for images containing multiple faces. We area also adding simulated Additive White Gaussian Noise (AWGN) to our existing test images to experiment if it still producing similar range of accuracy. Also, for face  detection, instead of using Haar-Cascade face detection from OpenCV, our plan is to try YOLO-V5 or so to make the face detection easier and robust.
 %
 % ---- Bibliography ----
 %
-\begin{thebibliography}{6}
+\begin{thebibliography}{10}
 %
 \bibitem {ge2017detecting}
 Ge, S., Li, J., Ye, Q. and Luo, Z., 2017. Detecting masked faces in the wild with lle-cnns. In Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (pp. 2682-2690).
